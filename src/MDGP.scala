@@ -33,5 +33,11 @@ class MDGP(file:String) {
 }
 
 object Main extends App {
-  new MDGP("RanInt_n010_ds_01.txt")
+  val mdgp = new MDGP("test.txt")//"RanInt_n010_ds_01.txt")
+
+  val sol = MDGPSolution.greedySolution(mdgp)
+
+  val fitness = MDGPSolution.fitness(sol, mdgp)
+
+  println(fitness)
 }
