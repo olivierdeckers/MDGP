@@ -33,7 +33,7 @@ class MDGP(file:String) {
 }
 
 object Main extends App {
-  val mdgp = new MDGP("test.txt")//"RanInt_n010_ds_01.txt")
+  val mdgp = new MDGP("RanInt_n010_ds_01.txt")//"RanInt_n010_ds_01.txt")
 
   val sol = VNS.vns(mdgp)
 
