@@ -10,6 +10,7 @@ object NeighbourhoodStructure {
   }
 
   def swap(sol:Solution, mdgp:MDGP) = {
+    random.nextInt(mdgp.nbElements)
 
   }
 
