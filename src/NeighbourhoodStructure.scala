@@ -7,7 +7,7 @@ object NeighbourhoodStructure {
   def insertion(sol:Solution, mdgp:MDGP) : Solution = {
     val elem = random.nextInt(mdgp.nbElements)
     val group = sol.groups(elem)
-    val newGroup = random.nextInt(mdgp.nbElements)
+    val newGroup = random.nextInt(mdgp.nbGroups)
 
     val groupSize = sol.groupSizes(group) - 1
     val newGroupSize = sol.groupSizes(newGroup) + 1

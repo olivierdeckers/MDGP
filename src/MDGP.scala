@@ -35,12 +35,12 @@ class MDGP(file:String) {
 object Main extends App {
   val mdgp = new MDGP("test.txt")//"RanInt_n010_ds_01.txt")
 
-  val sol = MDGPSolution.greedySolution(mdgp)
+  val sol = VNS.vns(mdgp)
 
-  println(sol.groups)
-  println(NeighbourhoodStructure.insertion(sol, mdgp).groups)
-
-  val fitness = MDGPSolution.fitness(sol, mdgp)
-
-  println(fitness)
+  println(MDGPSolution.fitness(sol, mdgp))
+//  val sol = MDGPSolution.greedySolution(mdgp)
+//
+//  val fitness = MDGPSolution.fitness(sol, mdgp)
+//
+//  println(fitness)
 }
