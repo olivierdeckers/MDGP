@@ -1,18 +1,21 @@
 import scala.collection.immutable.IntMap
 
-class Solution(val groupSizes:IntMap[Int], val groups:IntMap[Int]) {
+class Solution(val groups:IntMap[Int], val groupSizes:IntMap[Int]) {
 
 }
 
 object MDGPSolution {
 
   def greedySolution(mdgp: MDGP): Solution = {
-    var sol = new Solution(IntMap[Int](),IntMap[Int]())
 
     var nbItemsNeeded = IntMap[Int]()
+    var groupSizes = IntMap[Int]()
     for(i <- 0 until mdgp.nbGroups) {
       nbItemsNeeded += i -> mdgp.limits(i)._1
+      groupSizes += (i -> 0)
     }
+
+    var sol = new Solution(IntMap[Int](), groupSizes)
 
     for(i <- 0 until mdgp.nbElements) {
       var maxAvgDistance = -1d
