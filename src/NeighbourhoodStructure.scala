@@ -20,11 +20,27 @@ object NeighbourhoodStructure {
   }
 
   def swap(sol:Solution, mdgp:MDGP) = {
-    random.nextInt(mdgp.nbElements)
+    if(mdgp.nbGroups <= 1) throw new IllegalArgumentException("At least 2 groups")
 
+    var i,j = random.nextInt(mdgp.nbElements)
+    while(sol.groups(i) == sol.groups(j)){
+      j = random.nextInt(mdgp.nbElements)
+    }
+
+    new Solution(sol.groups - i - j + (i -> sol.groups(j)) + (j -> sol.groups(i)), sol.groupSizes)
   }
 
   def threeChain(sol:Solution, mdgp:MDGP) = {
+    if(mdgp.nbGroups <= 2) throw new IllegalArgumentException("At least 3 groups")
 
+    var i,j,k = random.nextInt(mdgp.nbElements)
+    while(sol.groups(i) == sol.groups(j)){
+      j = random.nextInt(mdgp.nbElements)
+    }
+    while(sol.groups(i) == sol.groups(k) || sol.groups(j) == sol.groups(k)){
+      k = random.nextInt(mdgp.nbElements)
+    }
+
+    new Solution(sol.groups - i - j - k + (i -> sol.groups(j)) + (j -> sol.groups(k)) + (k -> sol.groups(i)), sol.groupSizes)
   }
 }
