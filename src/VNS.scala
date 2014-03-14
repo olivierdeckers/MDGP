@@ -1,3 +1,4 @@
+import scala.util.control.Breaks._
 
 object VNS {
 
@@ -5,28 +6,25 @@ object VNS {
 
   def vns(mdgp:MDGP) : Solution = {
     var sol = MDGPSolution.greedySolution(mdgp)
-    var fitness = MDGPSolution.fitness(sol, mdgp)
 
-    val solutions = Iterator.iterate(sol) { (sol => {
+    var i = 0
+    while (i<neighbourhoods.length) {
       val f = MDGPSolution.fitness(sol, mdgp)
 
-      for(neighbourhood <- neighbourhoods) {
-        for(i <- 0 until 10) {
-          val newSol = neighbourhood(sol, mdgp)
-          val newF = MDGPSolution.fitness(newSol, mdgp)
+      for(_ <- 0 until 10) {
+        val newSol = neighbourhoods(i)(sol, mdgp)
+        val newF = MDGPSolution.fitness(newSol, mdgp)
 
-          if(newF > f) {
-           return newSol
-          }
+        if(newF > f) {
+          sol = newSol
+          i = 0
+          break
         }
       }
 
-      return null
-    }) : (Solution => Solution)}
+      i += 1
+    }
 
-    val trace = solutions.takeWhile(sol => sol != null).toList
-
-    return (sol :: trace).last
-
+    return sol
   }
 }
