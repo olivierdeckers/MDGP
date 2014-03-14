@@ -19,7 +19,7 @@ object NeighbourhoodStructure {
       sol.groupSizes + (group -> groupSize) + (newGroup -> newGroupSize))
   }
 
-  def swap(sol:Solution, mdgp:MDGP) = {
+  def swap(sol:Solution, mdgp:MDGP) : Solution = {
     if(mdgp.nbGroups <= 1) throw new IllegalArgumentException("At least 2 groups")
 
     var i,j = random.nextInt(mdgp.nbElements)
@@ -30,7 +30,7 @@ object NeighbourhoodStructure {
     new Solution(sol.groups - i - j + (i -> sol.groups(j)) + (j -> sol.groups(i)), sol.groupSizes)
   }
 
-  def threeChain(sol:Solution, mdgp:MDGP) = {
+  def threeChain(sol:Solution, mdgp:MDGP) : Solution = {
     if(mdgp.nbGroups <= 2) throw new IllegalArgumentException("At least 3 groups")
 
     var i,j,k = random.nextInt(mdgp.nbElements)
