@@ -37,6 +37,9 @@ object Main extends App {
 
   val sol = MDGPSolution.greedySolution(mdgp)
 
+  println(sol.groups)
+  println(NeighbourhoodStructure.insertion(sol, mdgp).groups)
+
   val fitness = MDGPSolution.fitness(sol, mdgp)
 
   println(fitness)
