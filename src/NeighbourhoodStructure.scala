@@ -1,6 +1,9 @@
-import _root_.MDGPSolution.Solution
+import MDGPSolution.Solution
+import scala.util.Random
 
 object NeighbourhoodStructure {
+
+  val random = new Random()
 
   def insertion(sol:Solution, mdgp:MDGP) = {
 

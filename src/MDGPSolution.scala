@@ -1,11 +1,13 @@
 import scala.collection.immutable.IntMap
 
+class Solution(val groupSizes:IntMap[Int], val groups:IntMap[Int]) {
+
+}
+
 object MDGPSolution {
 
-  type Solution = IntMap[Int]
-
   def greedySolution(mdgp: MDGP): Solution = {
-    var sol = IntMap[Int]()
+    var sol = new Solution(IntMap[Int](),IntMap[Int]())
 
     var nbItemsNeeded = IntMap[Int]()
     for(i <- 0 until mdgp.nbGroups) {
@@ -33,7 +35,7 @@ object MDGPSolution {
         }
       }
 
-      sol += i -> bestGroup
+      sol = new Solution(sol.groups + (i -> bestGroup), sol.groupSizes + (bestGroup -> (sol.groupSizes(bestGroup) + 1)))
       nbItemsNeeded += bestGroup -> (nbItemsNeeded(bestGroup) - 1)
     }
 
@@ -42,7 +44,7 @@ object MDGPSolution {
 
   def calcAvgDistance(element:Int, group:Int, mdgp:MDGP, sol:Solution) = {
     val distances = (0 until mdgp.nbElements)
-      .filter(e => sol.contains(e) && sol(e) == group)
+      .filter(e => sol.groups.contains(e) && sol.groups(e) == group)
       .map(e => mdgp.distances(element)(e))
 
     if(distances.size == 0)
@@ -55,7 +57,7 @@ object MDGPSolution {
     var sum = 0
     for(i <- 0 until mdgp.nbElements) {
       for(j <- 0 until i) {
-        if(sol(j) == sol(i))
+        if(sol.groups(j) == sol.groups(i))
           sum += mdgp.distances(j)(i)
       }
     }
