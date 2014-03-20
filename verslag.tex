@@ -112,11 +112,18 @@ s0219692\\
 \newpage
 \setcounter{page}{1}
 
-\section{Verkennend lezen}
-Voor dit project werd eerst in de literatuur gezocht naar recente heuristieken voor het MDGP probleem. Hierbij werden vooral papers gevonden die gebruik maakten van de technieken tabu search, simmulated annealing en variable neighbourhood search. In Palubeckis et al.\cite{Palubeckis} worden deze 3 methoden met elkaar vergeleken. Hieruit blijkt dat \emph{variable neighbourhood search} het effici\"enste was voor grotere problemen. Daarom werd besloten dieper in te gaan op deze methode. Hiervoor werd de paper van Urosevic\cite{Urosevic} gebruikt.
+\section{Literatuurstudie}
+Voor dit project werd eerst in de literatuur gezocht naar recente heuristieken voor het MDGP probleem. Hierbij werden vooral papers gevonden die gebruik maakten van de technieken \emph{tabu search}, \emph{simmulated annealing} en \emph{variable neighbourhood search}. In Palubeckis et al.\cite{Palubeckis} worden deze 3 methoden met elkaar vergeleken. Hieruit blijkt dat \emph{variable neighbourhood search} het effici\"enste was voor grotere problemen. Daarom werd besloten dieper in te gaan op deze methode. Hiervoor werd de paper van Urosevic\cite{Urosevic} gebruikt. In deze paper wordt VNS gebruikt met 3 types neighbourhood: \emph{insertion}, \emph{swap} en \emph{3-chain}.
+
+\begin{description}
+\item[Insertion] Insertion werkt door 1 element van een groep te verplaatsen naar een andere groep, die nog niet aan het maximum aantal elementen zit.
+\item[Swap] Swap werkt door twee elementen uit verschillende groepen met elkaar om te wisselen.
+\item[3-Chain] De 3-chain methode kiest willekeurig 3 elementen $i, j, k$ uit 3 verschillende groepen $g_{i}, g_{j}, g_{k}$. Vervolgens wordt element $i$ in groep $g_{j}$ geplaatst, element $j$ in groep $g_{k}$ en element $k$ in groep $g_{i}$.
+\end{description}
+
+Verder implementeert de paper van Urosevic\cite{Urosevic} ook functionaliteit voor random restarts, waarbij het zoeken van een oplossing verder gezet wordt vanaf een initial solution.
 
 \begin{thebibliography}{9}
-
 \bibitem{Palubeckis}
   G. Palubeckis et al.
   \emph{Comparative performance of three metaheuristic approaches
