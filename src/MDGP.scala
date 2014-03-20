@@ -1,9 +1,10 @@
+import java.io.File
 
-class MDGP(file:String) {
+class MDGP(file:File) {
 
   val (nbElements, nbGroups, limits, distances) = initFromFile(file)
 
-  def initFromFile(file:String) = {
+  def initFromFile(file:File) = {
     val (firstLine:String) :: distanceLines = io.Source.fromFile(file).getLines().toList
     val nbElements :: nbGroups :: groupLimits = firstLine.split(" ").map(s => toInt(s)).flatten.toList
 
@@ -13,10 +14,10 @@ class MDGP(file:String) {
     }
     val limits = readLimits(groupLimits)
 
-    val distances = Array.ofDim[Int](nbElements, nbElements)
+    val distances = Array.ofDim[Double](nbElements, nbElements)
     distanceLines.foreach(distance => {
-      val Array(a, b, d) = distance.split(" ").map(s => s.toInt)
-      distances(a)(b) = d
+      val Array(a, b, d) = distance.split(" ").map(s => s.toDouble)
+      distances(a.toInt)(b.toInt) = d
     })
 
     (nbElements, nbGroups, limits, distances)
@@ -33,14 +34,31 @@ class MDGP(file:String) {
 }
 
 object Main extends App {
-  val mdgp = new MDGP("RanInt_n010_ds_01.txt")//"RanInt_n010_ds_01.txt")
+  val files = new java.io.File("benchmark").listFiles.filter(_.getName.endsWith(".txt"))
+  val nbSamples = 20
 
-  val sol = VNS.vns(mdgp)
+  println("Filename\tMin\tAverage\tMax\tDuration")
 
-  println(MDGPSolution.fitness(sol, mdgp))
-//  val sol = MDGPSolution.greedySolution(mdgp)
-//
-//  val fitness = MDGPSolution.fitness(sol, mdgp)
-//
-//  println(fitness)
+  for(file <- files) {
+    val mdgp = new MDGP(file)
+
+    var sum = 0d
+    var min = Double.MaxValue
+    var max = 0d
+    var time = 0l
+    for(i <- 1 to nbSamples) {
+      val start = System.currentTimeMillis()
+      val sol = VNS.vns(mdgp)
+      time += System.currentTimeMillis() - start
+      val fitness = MDGPSolution.fitness(sol, mdgp)
+
+      sum += fitness
+      min = Math.min(min, fitness)
+      max = Math.max(max, fitness)
+    }
+    val average = sum / nbSamples.toDouble
+    val averageDuration = time / nbSamples.toDouble
+
+    println(s"${file.getName()}\t$min\t$average\t$max\t$averageDuration")
+  }
 }
