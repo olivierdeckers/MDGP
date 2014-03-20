@@ -2,3 +2,13 @@
 out/
 .DS_Store
 *.pdf
+
+*.toc
+
+*.gz
+
+*.out
+
+*.log
+
+*.aux
