@@ -1,0 +1,139 @@
+\documentclass[pdftex,12pt,a4paper]{article}
+\usepackage[dutch]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.markings,shapes}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{pgffor}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Matlab,                 % the language of the code
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+}
+
+\pagestyle{fancy}
+\lhead{Capita Selecta: Artifici\"ele Intelligentie}
+\chead{Project}
+\rhead{2013-2014}
+
+\def\ci{\perp\!\!\!\perp}
+
+\tikzset{
+    every node/.style={
+        circle,
+        draw,
+        inner sep     = 0pt,
+        minimum width =20 pt
+    }   
+}  
+
+\begin{document}
+
+\begin{titlepage}
+
+\begin{center}
+
+\begin{flushleft}
+
+\begin{tabular}{l|l}
+\multirow{4}{*}{\includegraphics[scale=0.1]{KUL.jpg}} \\ & \\
+& KATHOLIEKE UNIVERSITEIT LEUVEN\\[0.5cm]
+& FACULTEIT INGENIEURSWETENSCHAPPEN\\
+& \\
+\end{tabular}\\[8cm]
+\end{flushleft}
+
+
+
+{\LARGE \textbf{Capita Selecta: Artifici\"ele Intelligentie}}\\[1cm]
+\textbf{\LARGE Heuristieken}\\[8cm]
+
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+Olivier \textsc{Deckers} \\
+\end{flushleft}
+\begin{flushleft} \large
+Matthias \textsc{van der Hallen} \\
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+s0213127
+\end{flushright}
+\begin{flushright} \large
+s0219692\\
+\end{flushright}
+\end{minipage}\\[1cm]
+
+\end{center}
+
+\end{titlepage}
+
+\thispagestyle{empty}  
+\enlargethispage{10\baselineskip}
+\setcounter{page}{0}
+\newpage
+\setcounter{page}{1}
+
+\section{Literatuurstudie}
+Voor dit project werd eerst in de literatuur gezocht naar recente heuristieken voor het MDGP probleem. Hierbij werden vooral papers gevonden die gebruik maakten van de technieken \emph{tabu search}, \emph{simmulated annealing} en \emph{variable neighbourhood search}. In Palubeckis et al.\cite{Palubeckis} worden deze 3 methoden met elkaar vergeleken. Hieruit blijkt dat \emph{variable neighbourhood search} het effici\"enste was voor grotere problemen. Daarom werd besloten dieper in te gaan op deze methode. Hiervoor werd de paper van Urosevic\cite{Urosevic} gebruikt. In deze paper wordt VNS gebruikt met 3 types neighbourhood: \emph{insertion}, \emph{swap} en \emph{3-chain}.
+
+\begin{description}
+\item[Insertion] Insertion werkt door 1 element van een groep te verplaatsen naar een andere groep, die nog niet aan het maximum aantal elementen zit.
+\item[Swap] Swap werkt door twee elementen uit verschillende groepen met elkaar om te wisselen.
+\item[3-Chain] De 3-chain methode kiest willekeurig 3 elementen $i, j, k$ uit 3 verschillende groepen $g_{i}, g_{j}, g_{k}$. Vervolgens wordt element $i$ in groep $g_{j}$ geplaatst, element $j$ in groep $g_{k}$ en element $k$ in groep $g_{i}$.
+\end{description}
+
+Verder implementeert de paper van Urosevic\cite{Urosevic} ook functionaliteit voor random restarts, waarbij het zoeken van een oplossing verder gezet wordt vanaf een initial solution.
+
+\begin{thebibliography}{9}
+\bibitem{Palubeckis}
+  G. Palubeckis et al.
+  \emph{Comparative performance of three metaheuristic approaches
+for the maximally diverse grouping problem}.
+  Information Technology And Control, 2011, Vol 40, No 4.
+  
+\bibitem{Urosevic}
+ D. Urosevic
+ \emph{Variable Neighborhood search for maximum diverse grouping problem}.
+ Yugoslav Journal of Operations Research, 2014, Vol 24.
+
+\end{thebibliography}
+\end{document}
