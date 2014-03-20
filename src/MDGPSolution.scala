@@ -57,7 +57,7 @@ object MDGPSolution {
   }
 
   def fitness(sol: Solution, mdgp: MDGP) = {
-    var sum = 0
+    var sum = 0d
     for(i <- 0 until mdgp.nbElements) {
       for(j <- 0 until i) {
         if(sol.groups(j) == sol.groups(i))

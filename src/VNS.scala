@@ -6,8 +6,8 @@ object VNS {
     var neighbourhoods:List[(Solution,MDGP)=>Solution] = List(NeighbourhoodStructure.insertion)
     if(mdgp.nbGroups >= 2)
       neighbourhoods = neighbourhoods ++ List[(Solution,MDGP)=>Solution](NeighbourhoodStructure.swap)
-    if(mdgp.nbGroups >= 3)
-     neighbourhoods = neighbourhoods ++ List[(Solution,MDGP)=>Solution](NeighbourhoodStructure.threeChain)
+    //if(mdgp.nbGroups >= 3)
+    //  neighbourhoods = neighbourhoods ++ List[(Solution,MDGP)=>Solution](NeighbourhoodStructure.threeChain)
 
     var sol = MDGPSolution.greedySolution(mdgp)
 
