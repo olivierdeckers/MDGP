@@ -18,6 +18,7 @@ class MDGP(file:File) {
     distanceLines.foreach(distance => {
       val Array(a, b, d) = distance.split(" ").map(s => s.toDouble)
       distances(a.toInt)(b.toInt) = d
+      distances(b.toInt)(a.toInt) = d
     })
 
     (nbElements, nbGroups, limits, distances)
@@ -34,7 +35,11 @@ class MDGP(file:File) {
 }
 
 object Main extends App {
-  val files = new java.io.File("benchmark").listFiles.filter(_.getName.endsWith(".txt"))
+
+  val mdgp = new MDGP(new java.io.File("test.txt"))
+  Algorithms.gvns(mdgp)
+
+  /*val files = new java.io.File("benchmark").listFiles.filter(_.getName.endsWith(".txt"))
   val nbSamples = 20
 
   println("Filename\tMin\tAverage\tMax\tDuration")
@@ -60,5 +65,5 @@ object Main extends App {
     val averageDuration = time / nbSamples.toDouble
 
     println(s"${file.getName()}\t$min\t$average\t$max\t$averageDuration")
-  }
+  }*/
 }

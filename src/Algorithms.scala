@@ -6,17 +6,20 @@ object Algorithms {
     val start = System.currentTimeMillis()
 
     var sol = MDGPSolution.greedySolution(mdgp)
-    sol = vnd(sol, mdgp)
     var fitness = MDGPSolution.fitness(sol, mdgp)
+    var (sol1, fitness1) = vnd(sol, mdgp, fitness)
+    sol = sol1
+    fitness = fitness1
     var optSolution = sol
     var optFitness = fitness
     var k = kmin
     var niter = 0
 
     while(System.currentTimeMillis() - start <= tmax * 1000) {
-      var newSol = shake(sol, k, mdgp)
-      newSol = vnd(sol, mdgp)
-      val newFitness = MDGPSolution.fitness(newSol, mdgp)
+      var (newSolTemp, newFitnessTemp) = shake(sol, k, mdgp, fitness)
+      var (newSol, newFitness) = vnd(newSolTemp, mdgp, newFitnessTemp)
+
+      assert(newFitness == MDGPSolution.fitness(newSol, mdgp))
 
       if(newFitness > fitness) {
         sol = newSol
@@ -33,6 +36,7 @@ object Algorithms {
             optSolution = sol
             optFitness = fitness
             sol = MDGPSolution.greedySolution(mdgp)
+            fitness = MDGPSolution.fitness(sol, mdgp)
             niter = 0
           }
           k = kmin
@@ -43,32 +47,36 @@ object Algorithms {
     optSolution
   }
 
-  def shake(sol:Solution, k:Int, mdgp:MDGP) : Solution = {
+  def shake(sol:Solution, k:Int, mdgp:MDGP, fitness:Double) : (Solution, Double) = {
     var result = sol
+    var f = fitness
     for(_ <- 0 to k) {
-      result = NeighbourhoodStructure.swap(sol, mdgp)
+      var (result1, delta) = NeighbourhoodStructure.swap(result, mdgp) //sol? elke keer hetzelfde? Moet dit niet result zijn? ;P
+      result = result1
+      f+=delta
+      assert(f == MDGPSolution.fitness(result, mdgp))
     }
-    result
+    (result, f)
   }
 
-  def vnd(sol: Solution, mdgp: MDGP) : Solution = {
+  def vnd(sol: Solution, mdgp: MDGP, fitness:Double) : (Solution,Double) = {
     var result : Solution = sol
-    var neighbourhoods:List[(Solution,MDGP)=>Solution] = List(NeighbourhoodStructure.insertion)
+    var neighbourhoods:List[(Solution,MDGP)=>(Solution, Double)] = List(NeighbourhoodStructure.insertion)
     if(mdgp.nbGroups >= 2)
-      neighbourhoods = neighbourhoods ++ List[(Solution,MDGP)=>Solution](NeighbourhoodStructure.swap)
+      neighbourhoods = neighbourhoods ++ List[(Solution,MDGP)=>(Solution, Double)](NeighbourhoodStructure.swap)
     //if(mdgp.nbGroups >= 3)
     //  neighbourhoods = neighbourhoods ++ List[(Solution,MDGP)=>Solution](NeighbourhoodStructure.threeChain)
 
     var i = 0
+    var f = fitness
     while (i<neighbourhoods.length) {
-      val f = MDGPSolution.fitness(result, mdgp)
 
       breakable {
         for(_ <- 0 until 10) {
-          val newSol = neighbourhoods(i)(result, mdgp)
-          val newF = MDGPSolution.fitness(newSol, mdgp)
+          val (newSol, delta) = neighbourhoods(i)(result, mdgp)
 
-          if(newF > f) {
+          if(delta>0) {
+            f = f + delta
             result = newSol
             i = 0
             break
@@ -79,6 +87,8 @@ object Algorithms {
       i += 1
     }
 
-    result
+    assert(f == MDGPSolution.fitness(result, mdgp))
+
+    (result, f)
   }
 }

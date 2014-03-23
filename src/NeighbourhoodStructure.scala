@@ -20,8 +20,8 @@ object NeighbourhoodStructure {
     var sumOfDiv = sol.sumOfDiversities
     for(j<- 0 until mdgp.nbElements){
       var column:List[Double] = sumOfDiv(j)
-      column = column.updated(group, column(group)-mdgp.distances(i)(j))
-      column = column.updated(newGroup, column(newGroup)+mdgp.distances(i)(j))
+      column = column.updated(group, column(group)-mdgp.distances(elem)(j))
+      column = column.updated(newGroup, column(newGroup)+mdgp.distances(elem)(j))
       sumOfDiv = sumOfDiv.updated(j, column)
     }
 
@@ -47,7 +47,7 @@ object NeighbourhoodStructure {
       var column:List[Double] = sumOfDiv(l)
       column = column.updated(sol.groups(j), column(sol.groups(j))-mdgp.distances(l)(j)+mdgp.distances(l)(i))
       column = column.updated(sol.groups(i), column(sol.groups(i))+mdgp.distances(l)(j)-mdgp.distances(l)(i))
-      sumOfDiv = sumOfDiv.updated(k, column)
+      sumOfDiv = sumOfDiv.updated(l, column)
     }
 
     (new Solution(sol.groups - i - j + (i -> sol.groups(j)) + (j -> sol.groups(i)), sol.groupSizes, sumOfDiv), delta)
@@ -76,7 +76,7 @@ object NeighbourhoodStructure {
       column = column.updated(sol.groups(j), column(sol.groups(j))+mdgp.distances(l)(i)-mdgp.distances(l)(j))
       column = column.updated(sol.groups(k), column(sol.groups(k))+mdgp.distances(l)(j)-mdgp.distances(l)(k))
       column = column.updated(sol.groups(i), column(sol.groups(k))+mdgp.distances(l)(k)-mdgp.distances(l)(i))
-      sumOfDiv = sumOfDiv.updated(k, column)
+      sumOfDiv = sumOfDiv.updated(l, column)
     }
 
     (new Solution(sol.groups - i - j - k + (i -> sol.groups(j)) + (j -> sol.groups(k)) + (k -> sol.groups(i)), sol.groupSizes, sumOfDiv), delta)
