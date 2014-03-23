@@ -113,7 +113,13 @@ s0219692\\
 \setcounter{page}{1}
 
 \section{Literatuurstudie}
-Voor dit project werd eerst in de literatuur gezocht naar recente heuristieken voor het MDGP probleem. Hierbij werden vooral papers gevonden die gebruik maakten van de technieken \emph{tabu search}, \emph{simmulated annealing} en \emph{variable neighbourhood search}. In Palubeckis et al.\cite{Palubeckis} worden deze 3 methoden met elkaar vergeleken. Hieruit blijkt dat \emph{variable neighbourhood search} het effici\"enste was voor grotere problemen. Daarom werd besloten dieper in te gaan op deze methode. Hiervoor werd de paper van Urosevic\cite{Urosevic} gebruikt. In deze paper wordt VNS gebruikt met 3 types neighbourhood: \emph{insertion}, \emph{swap} en \emph{3-chain}.
+Voor dit project werd eerst in de literatuur gezocht naar recente heuristieken voor het MDGP probleem. Hierbij werden vooral papers gevonden die gebruik maakten van de technieken \emph{tabu search}, \emph{simulated annealing} en \emph{variable neighbourhood search}.
+
+In Palubeckis et al.\cite{Palubeckis} worden deze 3 methoden met elkaar vergeleken. Hieruit blijkt dat \emph{variable neighbourhood search} het effici\"enste was voor grotere problemen. Bovendien was deze methode voor ons beiden nog ongekend, in tegenstelling tot simulated annealing en genetic algorithms, waar we al ervaring mee hadden.
+
+Daarom werd besloten dieper in te gaan op de \emph{variable neighbourhood search} methode. Hiervoor werd de paper van Urosevic\cite{Urosevic} gebruikt. Deze leek voornamelijk door veelbelovende resultaten en omdat de paper, in 2014 gepubliceerd, ook erg recent was. 
+
+In deze paper wordt VNS gebruikt met 3 types neighbourhood: \emph{insertion}, \emph{swap} en \emph{3-chain}.
 
 \begin{description}
 \item[Insertion] Insertion werkt door 1 element van een groep te verplaatsen naar een andere groep, die nog niet aan het maximum aantal elementen zit.
@@ -125,10 +131,13 @@ Verder implementeert de paper van Urosevic\cite{Urosevic} ook functionaliteit vo
 
 \section{Real World Voorbeeld}
 
-Het maximally diverse grouping probleem kan terug gevonden worden in de peer review die gebeurt bij publicatie van een paper. Het doel van de peer review stap is het waarborgen van de kwaliteit van verschillende papers. Hierbij is het belangrijk om zoveel mogelijk verscheidenheid te behouden bij het kiezen van de reviewers, om zo reviewers uit verschillende velden van expertise en uit verschillende opleidingen en universiteiten de paper te laten nalezen.
+Het maximally diverse grouping probleem kan terug gevonden worden in het vormen van groepen researchers voor de peer review die gebeurt bij publicatie van een paper. Het doel van de peer review stap is het waarborgen van de kwaliteit van verschillende papers. Hierbij is het belangrijk om zoveel mogelijk verscheidenheid te behouden bij het kiezen van de reviewers, om zo reviewers uit verschillende velden van expertise en uit verschillende opleidingen en universiteiten de paper te laten nalezen.
 
-Om MDGP te gebruiken bij het kiezen van peer reviewers is een preprocessing stap nodig die de matrix van afstanden tussen de verschillende onderzoekers opstelt. Het is mogelijk om hierbij te kijken naar de thuis-universiteit en het expertise gebied van elk van de reviewers. Hoe meer de thuis-universiteiten geografisch of methodologisch bij elkaar horen, hoe kleiner de afstand tussen de researchers in de afstandsmatrix. De definitie van het MDGP probleem staat ons toe om te bepalen hoeveel reviewers er minimum en maximum aan elke paper toegekend mogen worden.
+Om MDGP te gebruiken bij het kiezen van peer reviewers is een preprocessing stap nodig die de matrix van afstanden tussen de verschillende onderzoekers opstelt. Het is mogelijk om hierbij te kijken naar de thuis-universiteit en het expertise gebied van elk van de reviewers. Hoe meer de thuis-universiteiten geografisch of methodologisch bij elkaar horen, hoe kleiner de afstand tussen de researchers in de afstandsmatrix. Op het vlak van expertise ligt de zaak iets moeilijk. Het is natuurlijk van belang om te zorgen dat elke reviewer tenminste een zekere mate aan basiskennis heeft over het onderwerp van de te reviewen paper. Dit kan bereikt worden door te vertrekken van papers met min of meer het zelfde vakgebied.
 
+De definitie van het MDGP probleem staat ons ook toe om te bepalen hoeveel reviewers er minimum en maximum aan elke paper toegekend mogen worden. 
+
+\newpage
 \begin{thebibliography}{9}
 \bibitem{Palubeckis}
   G. Palubeckis et al.
