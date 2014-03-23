@@ -1,4 +1,5 @@
 import scala.collection.immutable.IntMap
+import scala.util.Random
 
 class Solution(val groups:IntMap[Int], val groupSizes:IntMap[Int]) {
 
@@ -17,10 +18,10 @@ object MDGPSolution {
 
     var sol = new Solution(IntMap[Int](), groupSizes)
 
-    for(i <- 0 until mdgp.nbElements) {
+    for(i <- 0 until mdgp.nbElements) {//Random.shuffle((0 until mdgp.nbElements).toList)) {
       var maxAvgDistance = -1d
       var bestGroup = -1
-      for(g <- (0 until mdgp.nbGroups).filter(i => nbItemsNeeded(i) > 0)) {
+      for(g <- Random.shuffle((0 until mdgp.nbGroups).filter(i => nbItemsNeeded(i) > 0))) {
         val avgDistance = calcAvgDistance(i, g, mdgp, sol)
         if(avgDistance > maxAvgDistance) {
           maxAvgDistance = avgDistance
