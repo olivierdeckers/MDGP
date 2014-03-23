@@ -19,7 +19,7 @@ object Algorithms {
       var (newSolTemp, newFitnessTemp) = shake(sol, k, mdgp, fitness)
       var (newSol, newFitness) = vnd(newSolTemp, mdgp, newFitnessTemp)
 
-      assert(newFitness == MDGPSolution.fitness(newSol, mdgp))
+      //assert(newFitness == MDGPSolution.fitness(newSol, mdgp))
 
       if(newFitness > fitness) {
         sol = newSol
@@ -54,7 +54,7 @@ object Algorithms {
       var (result1, delta) = NeighbourhoodStructure.swap(result, mdgp) //sol? elke keer hetzelfde? Moet dit niet result zijn? ;P
       result = result1
       f+=delta
-      assert(f == MDGPSolution.fitness(result, mdgp))
+      //assert(f == MDGPSolution.fitness(result, mdgp))
     }
     (result, f)
   }
@@ -87,7 +87,7 @@ object Algorithms {
       i += 1
     }
 
-    assert(f == MDGPSolution.fitness(result, mdgp))
+    //assert(f == MDGPSolution.fitness(result, mdgp))
 
     (result, f)
   }
