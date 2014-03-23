@@ -1,7 +1,7 @@
 import scala.collection.immutable.IntMap
 import scala.util.Random
 
-class Solution(val groups:IntMap[Int], val groupSizes:IntMap[Int]) {
+class Solution(val groups:IntMap[Int], val groupSizes:IntMap[Int], val sumOfDiversities:List[List[Double]]) {
 
 }
 
@@ -16,7 +16,7 @@ object MDGPSolution {
       groupSizes += (i -> 0)
     }
 
-    var sol = new Solution(IntMap[Int](), groupSizes)
+    var sol = new Solution(IntMap[Int](), groupSizes, List.fill(mdgp.nbElements, mdgp.nbGroups)(0))
 
     for(i <- 0 until mdgp.nbElements) {//Random.shuffle((0 until mdgp.nbElements).toList)) {
       var maxAvgDistance = -1d
@@ -39,7 +39,14 @@ object MDGPSolution {
         }
       }
 
-      sol = new Solution(sol.groups + (i -> bestGroup), sol.groupSizes + (bestGroup -> (sol.groupSizes(bestGroup) + 1)))
+      var sumOfDiv = sol.sumOfDiversities
+      for(j<- 0 until mdgp.nbElements){
+        val column:List[Double] = sumOfDiv(j)
+        sumOfDiv = sumOfDiv.updated(j, column.updated(bestGroup, column(bestGroup)+mdgp.distances(i)(j)))
+      }
+
+
+      sol = new Solution(sol.groups + (i -> bestGroup), sol.groupSizes + (bestGroup -> (sol.groupSizes(bestGroup) + 1)), sumOfDiv)
       nbItemsNeeded += bestGroup -> (nbItemsNeeded(bestGroup) - 1)
     }
 
