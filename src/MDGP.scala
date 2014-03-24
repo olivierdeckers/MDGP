@@ -51,7 +51,7 @@ object Main extends App {
     var time = 0l
     for(i <- 1 to nbSamples) {
       val start = System.currentTimeMillis()
-      val sol = Algorithms.gvns(mdgp, random = false)
+      val sol = Algorithms.gvns(mdgp)
       time += System.currentTimeMillis() - start
       val fitness = MDGPSolution.fitness(sol, mdgp)
 

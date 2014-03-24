@@ -196,6 +196,8 @@ Iedere neighbourhood structure krijgt tien kansen om een betere oplossing te vin
 
 Indien alle neighbourhood structuren hun 10 pogingen opgebruikt hebben zonder een betere oplossing te vinden wordt de huidige oplossing teruggegeven.
 \\[1em]
+Bij het implementeren van de verschillende neighbourhood structuren werd er bovendien op gelet dat de effici\"ente $\Delta$-updates, beschreven in de paper,gebruikt werden. Hierdoor moeten deze fitness values niet telkens opnieuw berekend worden.
+\\[1em]
 Ook bij het implementeren van de greedy initial solution moesten bepaalde designkeuzes gemaakt worden. Zoals eerder vermeld moet deze methode nog altijd randomness introduceren, zoniet zou elke random restart vanaf dezelfde initial solution vertrekken.
  
 Bij het genereren van een initial solution is het mogelijk om randomness te introduceren door niet altijd de beste group te nemen, of door de volgorde waarin de elementen toegevoegd worden aan de beste groep willekeurig te maken. Beide opties introduceren variatie in de initial solution die gebruikt wordt bij random restarts. De paper kiest hier voor de 2de optie. In de \emph{sectie \ref{sec:Resultaten}} zullen we ook de optie beschouwen om volledig random initial solution te gebruiken.
