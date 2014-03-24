@@ -167,8 +167,21 @@ Verder implementeert de paper van Urosevic\cite{Urosevic} ook random restarts. I
 
 In dit opzicht is het wel belangrijk dat de greedy heuristiek een willekeurige component bevat en niet deterministisch steeds dezelfde oplossing teruggeeft.
 
+\section{Nabeschouwing van het artikel}
+De gebruikte paper geeft een goede inleiding tot het probleem en introduceert duidelijk de verschillende componenten van hun oplossing, namelijk de greedy initial solution, variable neighbourhood descent, shaking en random restarts.
+Een kleine fout in een formule nagelaten zijn ook de wiskundige onderbouwing en de code van de verschillende onderdelen duidelijk.
+
+Wanneer deze verschillende onderdelen gecombineerd worden zijn echter niet altijd alle keuzes gespecificeerd.
+Zo zijn er verschillende mogelijke manieren om de neighbourhood structuren te combineren tot een variable neighbourhood descent.
+
+Deze verschillen in het aantal keer dat elke structuur de kans gegeven wordt om verbetering op te leveren en de greedyness van de descent. Het is namelijk mogelijk om de structuur toe te passen zodra hij verbetering oplevert, maar er kan ook gekozen worden om de structuur meerdere keren te testen en vervolgens de beste verbetering in gebruik te nemen.
+
+Deze verschillende opties kunnen een grote invloed hebben op de kwaliteit van de gevonden oplossing.
+
+De methodologie gebruikt bij het testen, hoeveel tijd en samples elke test kreeg en de parameters van variable neighbourhood search die hierbij gebruikt werden zijn wel erg duidelijk vermeld.
+
 \section{Implementatie}
-De paper laat na de exacte implementatie van variable neighbourhood descent die gebruikt werd te vermelden. ...
+Zoals eerder vermeld laat de paper na de exacte implementatie van variable neighbourhood descent die gebruikt werd te beschrijven. \todo{Aanvullen}
 
 \section{Real World Voorbeeld}
 
