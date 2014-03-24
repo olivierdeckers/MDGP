@@ -18,10 +18,10 @@ object MDGPSolution {
 
     var sol = new Solution(IntMap[Int](), groupSizes, List.fill(mdgp.nbElements, mdgp.nbGroups)(0))
 
-    for(i <- 0 until mdgp.nbElements) {//Random.shuffle((0 until mdgp.nbElements).toList)) {
+    for(i <- Random.shuffle((0 until mdgp.nbElements).toList)) {
       var maxAvgDistance = -1d
       var bestGroup = -1
-      for(g <- Random.shuffle((0 until mdgp.nbGroups).filter(i => nbItemsNeeded(i) > 0))) {
+      for(g <- (0 until mdgp.nbGroups).filter(i => nbItemsNeeded(i) > 0)) {
         val avgDistance = calcAvgDistance(i, g, mdgp, sol)
         if(avgDistance > maxAvgDistance) {
           maxAvgDistance = avgDistance
