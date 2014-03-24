@@ -2,10 +2,12 @@ import scala.util.control.Breaks._
 
 object Algorithms {
 
-  def gvns(mdgp:MDGP, kmin:Int = 2, kmax:Int = 60, kstep:Int = 2, tmax:Int = 600, nrest:Int = 2) : Solution = {
+  def gvns(mdgp:MDGP, kmin:Int = 2, kmax:Int = 60, kstep:Int = 2, tmax:Int = 600, nrest:Int = 2, random:Boolean = true) : Solution = {
     val start = System.currentTimeMillis()
 
-    var sol = MDGPSolution.greedySolution(mdgp)
+    val initialSolution:(MDGP => Solution) = if(!random) MDGPSolution.greedySolution else MDGPSolution.randomSolution
+
+    var sol = initialSolution(mdgp)
     var fitness = MDGPSolution.fitness(sol, mdgp)
     var (sol1, fitness1) = vnd(sol, mdgp, fitness)
     sol = sol1
@@ -37,7 +39,7 @@ object Algorithms {
           if(fitness > optFitness) {
             optSolution = sol
             optFitness = fitness
-            sol = MDGPSolution.greedySolution(mdgp)
+            sol = initialSolution(mdgp)
             fitness = MDGPSolution.fitness(sol, mdgp)
             niter = 0
           }
@@ -66,8 +68,8 @@ object Algorithms {
     var neighbourhoods:List[(Solution,MDGP)=>(Solution, Double)] = List(NeighbourhoodStructure.insertion)
     if(mdgp.nbGroups >= 2)
       neighbourhoods = neighbourhoods ++ List[(Solution,MDGP)=>(Solution, Double)](NeighbourhoodStructure.swap)
-    //if(mdgp.nbGroups >= 3)
-    //  neighbourhoods = neighbourhoods ++ List[(Solution,MDGP)=>Solution](NeighbourhoodStructure.threeChain)
+    if(mdgp.nbGroups >= 3)
+      neighbourhoods = neighbourhoods ++ List[(Solution,MDGP)=>(Solution, Double)](NeighbourhoodStructure.threeChain)
 
     var i = 0
     var f = fitness

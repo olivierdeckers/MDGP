@@ -189,6 +189,21 @@ Greedy & 1025903.235 & 1031044.62 & 1035125.942 & 609866.6667
 \caption{Comparison of results using greedy versus random initianl solution. Results were calculated on the RanReal\_n960\_ds\_10.txt benchmark dataset and averaged over 6 runs}
 \label{table:greedyvsrandom}
 \end{table}
+\section{Nabeschouwing van het artikel}
+De gebruikte paper geeft een goede inleiding tot het probleem en introduceert duidelijk de verschillende componenten van hun oplossing, namelijk de greedy initial solution, variable neighbourhood descent, shaking en random restarts.
+Een kleine fout in een formule nagelaten zijn ook de wiskundige onderbouwing en de code van de verschillende onderdelen duidelijk.
+
+Wanneer deze verschillende onderdelen gecombineerd worden zijn echter niet altijd alle keuzes gespecificeerd.
+Zo zijn er verschillende mogelijke manieren om de neighbourhood structuren te combineren tot een variable neighbourhood descent.
+
+Deze verschillen in het aantal keer dat elke structuur de kans gegeven wordt om verbetering op te leveren en de greedyness van de descent. Het is namelijk mogelijk om de structuur toe te passen zodra hij verbetering oplevert, maar er kan ook gekozen worden om de structuur meerdere keren te testen en vervolgens de beste verbetering in gebruik te nemen.
+
+Deze verschillende opties kunnen een grote invloed hebben op de kwaliteit van de gevonden oplossing.
+
+De methodologie gebruikt bij het testen, hoeveel tijd en samples elke test kreeg en de parameters van variable neighbourhood search die hierbij gebruikt werden, zijn wel erg duidelijk vermeld.
+
+Op deze methodologi\"en zijn wel enkele opmerkingen te maken. Zo wordt de keuze tussen \emph{random initial solution} en \emph{greedy initial solution} gemotiveerd door deze 2 methoden een oplossing te laten genereren en deze vervolgens door \'e\'en enkele iteratie van \emph{variable neighbourhood descent} te laten optimaliseren. 
+Hierbij kan men echter in twijfel trekken of de betere startwaarde die greedy initial solutions geven  geen oneerlijk voordeel geven aan deze methode. Het is namelijk goed mogelijk dat juist deze betere startwaarden zich in een lokaal optimum bevinden, waar meerdere iteraties van \emph{variable neighbourhood descent}, zelfs indien geholpen door een shake operator, niet uitgeraken. Daarom werd besloten deze keuze later opnieuw te onderzoeken.
 
 \section{Implementatie}
 Zoals eerder vermeld laat de paper na de exacte implementatie van hun variable neighbourhood descent te beschrijven. Voornamelijk bij het samenstellen van alle verschillende neighbourhood structuren tot variable neighbourhood descent is hierdoor veel keuzevrijheid overgelaten aan de implementator.
