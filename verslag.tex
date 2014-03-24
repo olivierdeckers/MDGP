@@ -107,27 +107,65 @@ s0219692\\
 \end{titlepage}
 
 \thispagestyle{empty}  
-\enlargethispage{10\baselineskip}
+%\enlargethispage{10\baselineskip}
 \setcounter{page}{0}
 \newpage
 \setcounter{page}{1}
 
+\tableofcontents
+\newpage
+
 \section{Literatuurstudie}
 Voor dit project werd eerst in de literatuur gezocht naar recente heuristieken voor het MDGP probleem. Hierbij werden vooral papers gevonden die gebruik maakten van de technieken \emph{tabu search}, \emph{simulated annealing} en \emph{variable neighbourhood search}.
 
-In Palubeckis et al.\cite{Palubeckis} worden deze 3 methoden met elkaar vergeleken. Hieruit blijkt dat \emph{variable neighbourhood search} het effici\"enste was voor grotere problemen. Bovendien was deze methode voor ons beiden nog ongekend, in tegenstelling tot simulated annealing en genetic algorithms, waar we al ervaring mee hadden.
+In Palubeckis et al.\cite{Palubeckis} worden deze 3 methoden met elkaar vergeleken. Hieruit blijkt dat \emph{variable neighbourhood search} het effici\"entste was voor grotere problemen. Bovendien was deze methode voor ons beiden nog ongekend, in tegenstelling tot simulated annealing en genetic algorithms, waar we al ervaring mee hadden.
 
-Daarom werd besloten dieper in te gaan op de \emph{variable neighbourhood search} methode. Hiervoor werd de paper van Urosevic\cite{Urosevic} gebruikt. Deze leek voornamelijk door veelbelovende resultaten en omdat de paper, in 2014 gepubliceerd, ook erg recent was. 
+Daarom werd besloten dieper in te gaan op de \emph{variable neighbourhood search} methode. Hiervoor werd de paper van Urosevic\cite{Urosevic} gebruikt. Deze leek voornamelijk interessant door de veelbelovende resultaten en omdat de paper, in 2014 gepubliceerd, ook erg recent was. 
 
-In deze paper wordt VNS gebruikt met 3 types neighbourhood: \emph{insertion}, \emph{swap} en \emph{3-chain}.
+\section{GVNS}
+De paper beschrijft een variant van variable neighbourhood search, genaamd general variable neighbourhood search (GVNS). Deze meta heuristiek bestaat uit drie componenten:
+
+\begin{enumerate}
+\item Greedy initial solution
+\item Local search
+\item Shaking
+\item Random restarts
+\end{enumerate}
+
+\subsection{Intensification}
+\subsubsection{Greedy initial solution}
+Een voor de hand liggende manier om een initi\"ele oplossing te genereren bestaat erin de elementen volledig willekeurig aan groepen toe te wijzen binnen de beperkingen van de grootte van deze groepen.
+
+In de paper wordt er echter een greedy heuristiek gebruikt om de initi\"ele oplossing te genereren.
+Elementen worden een voor een toegewezen aan de groep waarvoor de gemiddelde afstand van de elementen die al aan de groep toegewezen zijn tot het element maximaal is.
+
+\subsubsection{Local search}
+Als local search methode wordt variable neighbourhood descent gebruikt.
+
+De paper omschrijft drie verschillende neighbourhood structuren: \emph{insertion}, \emph{swap} en \emph{3-chain}.
 
 \begin{description}
-\item[Insertion] Insertion werkt door 1 element van een groep te verplaatsen naar een andere groep, die nog niet aan het maximum aantal elementen zit.
+\item[Insertion] Insertion werkt door een element van een groep die meer dan zijn minimum aantal elementen bevat te verplaatsen naar een andere groep, die minder dan zijn maximum aantal elementen bevat.
 \item[Swap] Swap werkt door twee elementen uit verschillende groepen met elkaar om te wisselen.
 \item[3-Chain] De 3-chain methode kiest willekeurig 3 elementen $i, j, k$ uit 3 verschillende groepen $g_{i}, g_{j}, g_{k}$. Vervolgens wordt element $i$ in groep $g_{j}$ geplaatst, element $j$ in groep $g_{k}$ en element $k$ in groep $g_{i}$.
 \end{description}
 
+Uit de experimenten in de paper blijkt dat de uitvoeringstijd van variable neighbourhood descent stijgt met een factor 150 wanneer 3-chain gebruikt wordt. 
+De resulterende oplossingen blijken maar 1.7 keer beter te zijn.
+Om deze reden worden enkel insertion en swap gebruikt. 
+
+De tijd die gespaard wordt door 3-chain uit te schakelen kan nuttiger aangewend worden door meer iteraties van de gereduceerde variable neighbourhood descent uit te voeren.
+
+
+
+\subsection{Diversification}
+\subsubsection{Shaking}
+
+\subsubsection{Random restarts}
 Verder implementeert de paper van Urosevic\cite{Urosevic} ook functionaliteit voor random restarts, waarbij het zoeken van een oplossing verder gezet wordt vanaf een initial solution.
+
+\section{Implementatie}
+De paper laat na de exacte implementatie van variable neighbourhood descent die gebruikt werd te vermelden. ...
 
 \section{Real World Voorbeeld}
 
