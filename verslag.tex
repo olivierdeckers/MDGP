@@ -196,13 +196,13 @@ Iedere neighbourhood structure krijgt tien kansen om een betere oplossing te vin
 
 Indien alle neighbourhood structuren hun 10 pogingen opgebruikt hebben zonder een betere oplossing te vinden wordt de huidige oplossing teruggegeven.
 \\[1em]
-Bij het implementeren van de verschillende neighbourhood structuren werd er bovendien op gelet dat de effici\"ente $\Delta$-updates, beschreven in de paper,gebruikt werden. Hierdoor moeten deze fitness values niet telkens opnieuw berekend worden.
+Bij het implementeren van de verschillende neighbourhood structuren werd er bovendien op gelet dat de effici\"ente $\Delta$-updates, beschreven in de paper, gebruikt werden. Hierdoor moeten de bijhorende fitness values niet telkens opnieuw berekend worden.
 \\[1em]
 Ook bij het implementeren van de greedy initial solution moesten bepaalde designkeuzes gemaakt worden. Zoals eerder vermeld moet deze methode nog altijd randomness introduceren, zoniet zou elke random restart vanaf dezelfde initial solution vertrekken.
  
-Bij het genereren van een initial solution is het mogelijk om randomness te introduceren door niet altijd de beste group te nemen, of door de volgorde waarin de elementen toegevoegd worden aan de beste groep willekeurig te maken. Beide opties introduceren variatie in de initial solution die gebruikt wordt bij random restarts. De paper kiest hier voor de 2de optie. In de \emph{sectie \ref{sec:Resultaten}} zullen we ook de optie beschouwen om volledig random initial solution te gebruiken.
+Bij het genereren van een initial solution is het mogelijk om randomness te introduceren door niet altijd de beste group te nemen, of door de volgorde waarin de elementen toegevoegd worden aan de beste groep willekeurig te maken. Beide opties introduceren variatie in de initial solution die gebruikt wordt bij random restarts. De paper kiest hier voor de tweede optie. In \emph{sectie \ref{sec:Resultaten}} zullen we ook de optie beschouwen om een volledig random initial solution te gebruiken.
 \\[1em]
-De implementatie gebeurde in scala. De code kan teruggevonden worden op deze publieke repository: https://github.com/olivierdeckers/MDGP
+De implementatie gebeurde in scala. De code kan teruggevonden worden op deze publieke repository: \url{https://github.com/olivierdeckers/MDGP}
 
  
 \section{Resultaten \label{sec:Resultaten}}
@@ -223,7 +223,7 @@ In tegenstelling tot wat de paper aanneemt, blijkt uit deze resultaten dat het g
 \begin{table}
 \centering
 \begin{tabular}{l|c|c|c|c}
-& \multicolumn{3}{c|}{Fitness} & Time\\
+& \multicolumn{3}{c|}{Fitness} & Tijd\\
 & Min & Gem & Max & (ms) \\\hline
 Random & 1311449.558 &	1315008.215 &	1317348.628 &	600701.3333\\
 Greedy & 1022540.472 & 1028084.531 &	1030556.030 &	608098.3333
@@ -246,7 +246,7 @@ Het aantal iteraties is inderdaad significant lager wanneer 3-chain aanstaat, en
 \begin{table}[h]
 \centering
 \begin{tabular}{l|c|c|c|c|c}
-& \multicolumn{3}{c|}{Fitness} & Time & Iteraties \\
+& \multicolumn{3}{c|}{Fitness} & Tijd & Iteraties \\
 & Min & Gem & Max & (ms) & Gem \\\hline 
 VND-3 & 1268020.326	& 1278367.001 & 1294208.466	& 641090.3333 & 23.50\\
 VND-2 & 1311449.558 &	1315008.215 &	1317348.628 &	600701.333 & 400.33
@@ -256,21 +256,36 @@ VND-2 & 1311449.558 &	1315008.215 &	1317348.628 &	600701.333 & 400.33
 \end{table}
 
 \section{Conclusie}
-De eigen implementatie haalde zeer gelijkaardige resultaten aan die uit de paper. 
-
 Aangezien er enkel een absolute tijdsduur en geen aantal iteraties gegeven is, is het onmogelijk om deze resultaten rechtstreeks te vergelijken. De eigen implementatie werd in Scala geschreven en uitgevoerd op andere hardware, wat een groot verschil in aantal iteraties per seconde kan geven.
 
-Uit de resultaten blijkt tevens dat het gebruik van willekeurige initi\"ele oplossing betere resultaten geeft dan de heuristiek die in de paper voorgesteld wordt. 
+De eigen implementatie haalde wel zeer gelijkaardige resultaten aan die uit de paper, zoals ook te zien is in de tabellen.
+
+Uit de resultaten blijkt tevens dat het gebruik van een willekeurige initi\"ele oplossing betere resultaten geeft dan de heuristiek die in de paper voorgesteld wordt. 
+
+In tabel \ref{table:comparison_paper} zijn de resultaten uit de paper naast de eigen resultaten gezet. 
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l|c|c|c|c}
+& \multicolumn{3}{c|}{Fitness} & Tijd \\
+& Min & Gem & Max & (ms) \\\hline 
+resultaten paper & 1232502.22 & 1228581.40 & 1230575.43 & 598130\\
+eigen resultaten & 1311449.558 &	1315008.215 & 1317348.628 & 600701\\
+\end{tabular}
+\caption{Vergelijking tussen de eigen resultaten en de resultaten uit de paper \cite{Urosevic}}
+\label{table:comparison_paper}
+\end{table}
 
 \section{Real World Voorbeeld}
 
 Het maximally diverse grouping probleem kan terug gevonden worden in het vormen van groepen researchers voor de peer review die gebeurt bij publicatie van een paper. Het doel van de peer review stap is het waarborgen van de kwaliteit van verschillende papers. Hierbij is het belangrijk om zoveel mogelijk verscheidenheid te behouden bij het kiezen van de reviewers, om zo reviewers uit verschillende velden van expertise en uit verschillende opleidingen en universiteiten de paper te laten nalezen.
 
-Om MDGP te gebruiken bij het kiezen van peer reviewers is een preprocessing stap nodig die de matrix van afstanden tussen de verschillende onderzoekers opstelt. Het is mogelijk om hierbij te kijken naar de thuis-universiteit en het expertise gebied van elk van de reviewers. Hoe meer de thuis-universiteiten geografisch of methodologisch bij elkaar horen, hoe kleiner de afstand tussen de researchers in de afstandsmatrix. Op het vlak van expertise ligt de zaak iets moeilijk. Het is natuurlijk van belang om te zorgen dat elke reviewer tenminste een zekere mate aan basiskennis heeft over het onderwerp van de te reviewen paper. Dit kan bereikt worden door te vertrekken van papers met min of meer het zelfde vakgebied.
+De definitie van MDGP staat ons ook toe om te bepalen hoeveel reviewers er minimum en maximum aan elke paper toegekend mogen worden. 
 
-De definitie van het MDGP probleem staat ons ook toe om te bepalen hoeveel reviewers er minimum en maximum aan elke paper toegekend mogen worden. 
+Om MDGP te gebruiken bij het kiezen van peer reviewers is een preprocessing stap nodig die de matrix van afstanden tussen de verschillende onderzoekers opstelt. Het is mogelijk om hierbij te kijken naar de thuis-universiteit en het expertise gebied van elk van de reviewers. Hoe meer de thuis-universiteiten geografisch of methodologisch bij elkaar horen, hoe kleiner de afstand tussen de researchers in de afstandsmatrix. Op het vlak van expertise ligt de zaak iets moeilijker. Het is natuurlijk van belang om te zorgen dat elke reviewer tenminste een zekere mate aan basiskennis heeft over het onderwerp van de te reviewen paper. Dit kan bereikt worden door te vertrekken van papers en researchers met min of meer hetzelfde vakgebied.
 
-\newpage
+Het toekennen van gewichten aan elk van deze factoren is een subjectieve zaak waar nog dieper over nagedacht dient te worden.
+
 \begin{thebibliography}{9}
 \bibitem{Palubeckis}
   G. Palubeckis et al.
