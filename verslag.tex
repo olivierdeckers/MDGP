@@ -20,7 +20,6 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{pgffor}
-\usepackage{todonotes}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
@@ -175,34 +174,56 @@ In dit opzicht is het wel belangrijk dat de greedy heuristiek een willekeurige c
 \section{Implementatie}
 De paper laat na de exacte implementatie van variable neighbourhood descent die gebruikt werd te vermelden. ...
 
-\section{Results}
+\section{Resultaten}
+Doordat het algoritme een tijdslimiet heeft, hangen de resultaten sterk af van de machine waarop ze berekend zijn. Snellere machines zullen meer iteraties kunnen doorlopen in dezelfde tijd. Daarom is het ook moeilijk om de resultaten rechtstreeks te vergelijken met deze uit de paper.
+
+Alle resultaten werden berekend op dezelfde machine met een 2.3 GHz Intel Core i7 (Haswell).
+
+
+\subsection{Initial solution}
+Het experiment uit de paper om het effect van de initi\"ele oplossing te onderzoeken houdt houdt rekening met de fitness na \'e\'en keer de local search methode toe te passen op de initi\"ele oplossing.
+
+Zoals hierboven vermeld zijn deze resultaten zijn echter niet zomaar door te trekken naar het gebruik van de heuristiek in GVNS, waar het gebruik van uitsluitend greedy initial solutions mogelijk een te sterke beperking vormt op de zoekruimte om een optimale oplossing te vinden.
+
+Daarom werd ervoor gekozen om het effect van de initi\"ele oplossing te onderzoeken wanneer het volledige algoritme doorlopen wordt. De resultaten hiervan zijn terug te vinden in tabel \ref{table:greedyvsrandom}.
+
+In tegenstelling tot wat de paper aanneemt, blijkt uit deze resultaten dat het gebruik van een willekeurige initi\"ele oplossing tot een hogere fitness leidt.
+
+\begin{table}
+\centering
+\begin{tabular}{l|c|c|c|c}
+& \multicolumn{3}{c|}{Fitness} & Time\\
+& Min & Average & Max & (ms) \\\hline
+Random & 1218081.799 & 1220529.032 & 1223095.993 & 604691.1667\\
+Greedy & 1025903.235 & 1031044.62 & 1035125.942 & 609866.6667
+\end{tabular}
+\caption{Vergelijking van de resultaten voor greedy versus willekeurige initi\"ele oplossingen. Resultaten werden berekend op de  RanReal\_n960\_ds\_10.txt benchmark dataset en over zes runs uitgemiddeld}
+\label{table:greedyvsrandom}
+\end{table}
+
+\subsection{VND-3 vs VND-2}
+De paper vergelijkt deze twee local search operatoren los van de rest van het algoritme op basis van de kwaliteit van de oplossing en de tijd die nodig was om ze te genereren.
+
+Omdat VND-3 maar een licht betere oplossing kon vinden en hiervoor veel meer tijd nodig had (zie ook eerder), werd de 3-chain operator uitgeschakeld voor de rest van de experimenten.
+
+In dit experiment wordt onderzocht of de tijdswinst door het uitschakelen van 3-chain ook effectief opweegt tegen de lagere kwaliteit van oplossingen die uit de local search methode komen.
+Dit wordt getest door het algoritme met en zonder 3-chain te laten lopen. De resultaten zijn te vinden in tabel \ref{table:vnd3vsvnd2}.
+
+Het aantal iteraties is inderdaad significant lager wanneer 3-chain aanstaat, en het blijkt dat het effici\"enter is om meer iteraties te doorlopen dan in een uitgebreidere neighbourhood te zoeken: de resulterende fitnesses zijn hoger wanneer de 3-chain operator uitstaat.
 
 
 \begin{table}
 \centering
 \begin{tabular}{l|c|c|c|c}
 & \multicolumn{3}{c|}{Fitness} & Time\\
-& Min & Average & Max & (ms) \\\hline		
-Random & 1218081.799 & 1220529.032 & 1223095.993 & 604691.1667\\			
-Greedy & 1025903.235 & 1031044.62 & 1035125.942 & 609866.6667
+& Min & Average & Max & (ms) \\\hline
 \end{tabular}
-\caption{Comparison of results using greedy versus random initianl solution. Results were calculated on the RanReal\_n960\_ds\_10.txt benchmark dataset and averaged over 6 runs}
-\label{table:greedyvsrandom}
+\caption{}
+\label{table:vnd3vsvnd2}
 \end{table}
 
-\section{Implementatie}
-Zoals eerder vermeld laat de paper na de exacte implementatie van hun variable neighbourhood descent te beschrijven. Voornamelijk bij het samenstellen van alle verschillende neighbourhood structuren tot variable neighbourhood descent is hierdoor veel keuzevrijheid overgelaten aan de implementator.
+\end{tabular}
 
-Hierbij werd gekozen om zo nauw mogelijk bij de variable neighbourhood descent te blijven zoals omschreven in de les. Dit betekent dat de kleinste neighbourhood, insertion, 10 kansen gegeven werd om een verbetering op te leveren.
-De eerste verbetering gevonden binnen deze 10 kansen werd doorgevoerd en insertion kreeg opnieuw 10 kansen.
-
-Indien er geen verbetering gevonden werd in 10 tries, dan wordt verder gegaan met 10 tries voor de swap neighbourhood structure. Opnieuw wordt greedy de eerste verbetering toegepast, waarna opnieuw iteration gebruikt wordt.
-
-Als ook swap geen verbetering vindt, dan stopt variable neighbourhood descent en geeft het best gevonden resultaat terug.
-\\[1em]
-Ook bij het implementeren van de greedy initial solution moesten bepaalde designkeuzes gemaakt worden. Zoals eerder vermeld moet deze methode nog altijd randomness introduceren, zoniet zou elke random restart vanaf dezelfde initial solution vertrekken.
-
-Bij het genereren van een initial solution is het mogelijk om randomness te introduceren door niet altijd de beste group te nemen, of door de volgorde waarin de elementen toegevoegd worden aan de beste groep willekeurig te maken. Beide opties introduceren variatie in de initial solution die gebruikt wordt bij random restarts. De paper kiest hier voor de 2de optie.
 
 \section{Real World Voorbeeld}
 
