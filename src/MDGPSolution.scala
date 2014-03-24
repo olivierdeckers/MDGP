@@ -7,6 +7,43 @@ class Solution(val groups:IntMap[Int], val groupSizes:IntMap[Int], val sumOfDive
 
 object MDGPSolution {
 
+  def randomSolution(mdgp: MDGP): Solution = {
+
+    var nbItemsNeeded = IntMap[Int]()
+    var groupSizes = IntMap[Int]()
+    for(i <- 0 until mdgp.nbGroups) {
+      nbItemsNeeded += i -> mdgp.limits(i)._1
+      groupSizes += (i -> 0)
+    }
+
+    var sol = new Solution(IntMap[Int](), groupSizes, List.fill(mdgp.nbElements, mdgp.nbGroups)(0))
+
+    for(i <- Random.shuffle((0 until mdgp.nbElements).toList)) {
+
+      val groupsNeedingItems = (0 until mdgp.nbGroups).filter(g => nbItemsNeeded(g) > 0)
+      var groupNb = -1
+      if(groupsNeedingItems.size > 0) {
+        groupNb = groupsNeedingItems.head
+      } else {
+        groupNb = (0 until mdgp.nbGroups).filter(i => groupSizes(i) < mdgp.limits(i)._2).head
+      }
+
+
+
+      var sumOfDiv = sol.sumOfDiversities
+      for(j<- 0 until mdgp.nbElements){
+        val column:List[Double] = sumOfDiv(j)
+        sumOfDiv = sumOfDiv.updated(j, column.updated(groupNb, column(groupNb)+mdgp.distances(i)(j)))
+      }
+
+      sol = new Solution(sol.groups + (i->groupNb), sol.groupSizes + (groupNb -> (sol.groupSizes(groupNb) + 1)), sumOfDiv)
+
+      nbItemsNeeded += groupNb -> (nbItemsNeeded(groupNb) - 1)
+    }
+
+    sol
+  }
+
   def greedySolution(mdgp: MDGP): Solution = {
 
     var nbItemsNeeded = IntMap[Int]()
@@ -30,7 +67,7 @@ object MDGPSolution {
       }
 
       if(bestGroup == -1) {
-        for(g <- 0 until mdgp.nbGroups) {
+        for(g <- (0 until mdgp.nbGroups).filter(g => groupSizes(g) < mdgp.limits(g)._2)) {
           val avgDistance = calcAvgDistance(i, g, mdgp, sol)
           if(avgDistance > maxAvgDistance) {
             maxAvgDistance = avgDistance
