@@ -116,9 +116,9 @@ s0219692\\
 \newpage
 
 \section{Literatuurstudie}
-Voor dit project werd eerst in de literatuur gezocht naar recente heuristieken voor het MDGP probleem. Hierbij werden vooral papers gevonden die gebruik maakten van de technieken \emph{tabu search}, \emph{simulated annealing} en \emph{variable neighbourhood search}.
+Voor dit project werd eerst in de literatuur gezocht naar recente oplossingen voor het maximally diverse grouping problem. Hierbij werden vooral papers gevonden die gebruik maakten van de technieken \emph{tabu search}, \emph{simulated annealing} en \emph{variable neighbourhood search}.
 
-In Palubeckis et al.\cite{Palubeckis} worden deze 3 methoden met elkaar vergeleken. Hieruit blijkt dat \emph{variable neighbourhood search} het effici\"entste was voor grotere problemen. Bovendien was deze methode voor ons beiden nog ongekend, in tegenstelling tot simulated annealing en genetic algorithms, waar we al ervaring mee hadden.
+In Palubeckis et al.\cite{Palubeckis} worden deze 3 methoden met elkaar vergeleken. Hieruit blijkt dat \emph{variable neighbourhood search} het effici\"entste was voor grotere problemen. 
 
 Daarom werd besloten dieper in te gaan op de \emph{variable neighbourhood search} methode. Hiervoor werd de paper van Urosevic\cite{Urosevic} gebruikt. Deze leek voornamelijk interessant door de veelbelovende resultaten en omdat de paper, in 2014 gepubliceerd, ook erg recent was. 
 
@@ -141,7 +141,7 @@ De pseudocode voor GVNS uit \cite{Urosevic} is terug te vinden in de appendix \r
 Een voor de hand liggende manier om een initi\"ele oplossing te genereren bestaat erin de elementen volledig willekeurig aan groepen toe te wijzen binnen de beperkingen van de grootte van deze groepen.
 
 In de paper wordt er echter een greedy heuristiek gebruikt om de initi\"ele oplossing te genereren.
-Elementen worden een voor een toegewezen aan de groep waarvoor de gemiddelde afstand van de elementen die al aan de groep toegewezen zijn tot het element maximaal is.
+Elementen worden een voor een toegewezen aan de groep waarvoor de gemiddelde afstand van de elementen die al aan de groep toegewezen zijn tot het te plaatsen element maximaal is.
 
 \subsubsection{Local search}
 Als local search methode wordt variable neighbourhood descent gebruikt.
@@ -156,7 +156,7 @@ De paper omschrijft drie verschillende neighbourhood structuren: \emph{insertion
 
 Uit de experimenten in de paper blijkt dat de uitvoeringstijd van variable neighbourhood descent stijgt met een factor 150 wanneer 3-chain gebruikt wordt. 
 De resulterende oplossingen blijken maar 1.7 keer beter te zijn.
-Om deze reden worden enkel insertion en swap gebruikt. 
+Om deze reden worden in de paper enkel insertion en swap gebruikt. 
 
 De tijd die gespaard wordt door 3-chain uit te schakelen kan vermoedelijk nuttiger aangewend worden door meerdere random restarts uit te voeren.
 
@@ -164,12 +164,12 @@ De tijd die gespaard wordt door 3-chain uit te schakelen kan vermoedelijk nuttig
 \subsubsection{Shaking}
 Als diversificatie stelt de paper een shaking procedure voor.
 Deze procedure bestaat erin $k$ willekeurige swaps uit te voeren op de huidige oplossing. 
-De parameter $k$ is een parameter van de procedure, die door GVNS bepaald wordt.
+De parameter $k$ is een parameter van de procedure, die door GVNS bepaald wordt. De manier waarop dit gebeurd is terug te vinden in de pseudocode.
 
 \subsubsection{Random restarts}
 Verder implementeert de paper van Urosevic\cite{Urosevic} ook random restarts. Indien een betere oplossing niet gevonden wordt met VNS, wordt er een nieuwe initi\"ele oplossing gegenereerd met de greedy heuristiek die opnieuw geoptimaliseerd wordt.
 
-In dit opzicht is het wel belangrijk dat de greedy heuristiek een willekeurige component bevat en niet deterministisch steeds dezelfde oplossing teruggeeft.
+In dit kader is het wel belangrijk dat de greedy heuristiek een willekeurige component bevat en niet deterministisch steeds dezelfde oplossing teruggeeft.
 
 \section{Nabeschouwing van het artikel}
 De gebruikte paper geeft een goede inleiding tot het probleem en introduceert duidelijk de verschillende componenten van hun oplossing, namelijk de greedy initial solution, variable neighbourhood descent, shaking en random restarts.
@@ -178,7 +178,7 @@ Een kleine fout in een formule nagelaten zijn ook de wiskundige onderbouwing en 
 Wanneer deze verschillende onderdelen gecombineerd worden zijn echter niet altijd alle keuzes gespecificeerd.
 Zo zijn er verschillende mogelijke manieren om de neighbourhood structuren te combineren tot een variable neighbourhood descent.
 
-Deze verschillen in het aantal keer dat elke structuur de kans gegeven wordt om verbetering op te leveren en de greedyness van de descent. Het is namelijk mogelijk om de structuur toe te passen zodra hij verbetering oplevert, maar er kan ook gekozen worden om de structuur meerdere keren te testen en vervolgens de beste verbetering in gebruik te nemen.
+Deze verschillen in het aantal keer dat elke structuur de kans gegeven wordt om verbetering op te leveren en het gebruik van de \emph{FirstImprovement}, dan wel \emph{BestImprovement} heuristieken. Bij \emph{FirstImprovement} wordt de eerste gevonden verbetering toegepast. \emph{BestImprovement} kiest daarentegen de beste oplossing uit een vast aantal beschouwde alternatieven.
 
 Deze verschillende opties kunnen een grote invloed hebben op de kwaliteit van de gevonden oplossing.
 
@@ -190,18 +190,20 @@ Hierbij kan men echter in twijfel trekken of de betere startwaarde die greedy in
 \section{Implementatie}
 Zoals eerder vermeld laat de paper na de exacte implementatie van hun variable neighbourhood descent te beschrijven. Voornamelijk bij het samenstellen van alle verschillende neighbourhood structuren tot variable neighbourhood descent is hierdoor veel keuzevrijheid overgelaten aan de implementator.
 
-Hierbij werd gekozen om zo nauw mogelijk bij de variable neighbourhood descent te blijven zoals omschreven in de les. Dit betekent dat de kleinste neighbourhood, insertion, 10 kansen gegeven werd om een verbetering op te leveren.
-De eerste verbetering gevonden binnen deze 10 kansen werd doorgevoerd en insertion kreeg opnieuw 10 kansen.
+Hierbij werd gekozen om zo nauw mogelijk bij de variable neighbourhood descent te blijven zoals omschreven in de les. De neighbourhood structures worden in volgorde van ingrijpendheid overlopen: eerst Insertion, gevolgd door Swap en tenslotte 3-chain (indien gewenst).
 
-Indien er geen verbetering gevonden werd in 10 tries, dan wordt verder gegaan met 10 tries voor de swap neighbourhood structure. Opnieuw wordt greedy de eerste verbetering toegepast, waarna opnieuw iteration gebruikt wordt.
+Iedere neighbourhood structure krijgt tien kansen om een betere oplossing te vinden. Wordt deze betere oplossing gevonden, dan komt opnieuw de eerste neighbourhood structure aan de beurt en wordt het aantal gebruikte pogingen op nul gezet.
 
-Als ook swap geen verbetering vindt, dan stopt variable neighbourhood descent en geeft het best gevonden resultaat terug.
+Indien alle neighbourhood structuren hun 10 pogingen opgebruikt hebben zonder een betere oplossing te vinden wordt de huidige oplossing teruggegeven.
 \\[1em]
 Bij het implementeren van de verschillende neighbourhood structuren werd er bovendien op gelet dat de effici\"ente $\Delta$-updates, beschreven in de paper,gebruikt werden. Hierdoor moeten deze fitness values niet telkens opnieuw berekend worden.
 \\[1em]
 Ook bij het implementeren van de greedy initial solution moesten bepaalde designkeuzes gemaakt worden. Zoals eerder vermeld moet deze methode nog altijd randomness introduceren, zoniet zou elke random restart vanaf dezelfde initial solution vertrekken.
  
 Bij het genereren van een initial solution is het mogelijk om randomness te introduceren door niet altijd de beste group te nemen, of door de volgorde waarin de elementen toegevoegd worden aan de beste groep willekeurig te maken. Beide opties introduceren variatie in de initial solution die gebruikt wordt bij random restarts. De paper kiest hier voor de 2de optie. In de \emph{sectie \ref{sec:Resultaten}} zullen we ook de optie beschouwen om volledig random initial solution te gebruiken.
+\\[1em]
+De implementatie gebeurde in scala. De code kan teruggevonden worden op deze publieke repository: https://github.com/olivierdeckers/MDGP
+
  
 \section{Resultaten \label{sec:Resultaten}}
 Doordat het algoritme een tijdslimiet heeft, hangen de resultaten sterk af van de machine waarop ze berekend zijn. Snellere machines zullen meer iteraties kunnen doorlopen in dezelfde tijd. Daarom is het ook moeilijk om de resultaten rechtstreeks te vergelijken met deze uit de paper.
@@ -312,7 +314,7 @@ program GVNS(xopt, kmin, kmax, kstep, tmax, nrest)
       endif
     endwhile
 \end{verbatim}
-\caption{GVNS pseudocode (uit \cite{Urosevic})}
+\caption{GVNS pseudocode (overgenomen uit \cite{Urosevic})}
 \label{apx:gvns_pseudocode}
 \end{figure}
 \end{document}
