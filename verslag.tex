@@ -132,6 +132,10 @@ De paper beschrijft een variant van variable neighbourhood search, genaamd gener
 \item Random restarts
 \end{enumerate}
 
+In de volgende subsecties worden elk van deze componenten kort uitgelegd.
+
+De pseudocode voor GVNS uit \cite{Urosevic} is terug te vinden in de appendix \ref{apx:gvns_pseudocode}. Deze pseudocode geeft aan hoe de componenten gecombineerd worden.
+
 \subsection{Intensification}
 \subsubsection{Greedy initial solution}
 Een voor de hand liggende manier om een initi\"ele oplossing te genereren bestaat erin de elementen volledig willekeurig aan groepen toe te wijzen binnen de beperkingen van de grootte van deze groepen.
@@ -160,28 +164,31 @@ De tijd die gespaard wordt door 3-chain uit te schakelen kan vermoedelijk nuttig
 \subsubsection{Shaking}
 Als diversificatie stelt de paper een shaking procedure voor.
 Deze procedure bestaat erin $k$ willekeurige swaps uit te voeren op de huidige oplossing. 
-De parameter $k$ is een parameter van de procedure, die door GVNS bepaald wordt (zie later).
+De parameter $k$ is een parameter van de procedure, die door GVNS bepaald wordt.
 
 \subsubsection{Random restarts}
 Verder implementeert de paper van Urosevic\cite{Urosevic} ook random restarts. Indien een betere oplossing niet gevonden wordt met VNS, wordt er een nieuwe initi\"ele oplossing gegenereerd met de greedy heuristiek die opnieuw geoptimaliseerd wordt.
 
 In dit opzicht is het wel belangrijk dat de greedy heuristiek een willekeurige component bevat en niet deterministisch steeds dezelfde oplossing teruggeeft.
 
-\section{Nabeschouwing van het artikel}
-De gebruikte paper geeft een goede inleiding tot het probleem en introduceert duidelijk de verschillende componenten van hun oplossing, namelijk de greedy initial solution, variable neighbourhood descent, shaking en random restarts.
-Een kleine fout in een formule nagelaten zijn ook de wiskundige onderbouwing en de code van de verschillende onderdelen duidelijk.
-
-Wanneer deze verschillende onderdelen gecombineerd worden zijn echter niet altijd alle keuzes gespecificeerd.
-Zo zijn er verschillende mogelijke manieren om de neighbourhood structuren te combineren tot een variable neighbourhood descent.
-
-Deze verschillen in het aantal keer dat elke structuur de kans gegeven wordt om verbetering op te leveren en de greedyness van de descent. Het is namelijk mogelijk om de structuur toe te passen zodra hij verbetering oplevert, maar er kan ook gekozen worden om de structuur meerdere keren te testen en vervolgens de beste verbetering in gebruik te nemen.
-
-Deze verschillende opties kunnen een grote invloed hebben op de kwaliteit van de gevonden oplossing.
-
-De methodologie gebruikt bij het testen, hoeveel tijd en samples elke test kreeg en de parameters van variable neighbourhood search die hierbij gebruikt werden zijn wel erg duidelijk vermeld.
-
 \section{Implementatie}
-Zoals eerder vermeld laat de paper na de exacte implementatie van variable neighbourhood descent die gebruikt werd te beschrijven. \todo{Aanvullen}
+De paper laat na de exacte implementatie van variable neighbourhood descent die gebruikt werd te vermelden. ...
+
+\section{Results}
+
+
+\begin{table}
+\centering
+\begin{tabular}{l|c|c|c|c}
+& \multicolumn{3}{c|}{Fitness} & Time\\
+& Min & Average & Max & (ms) \\\hline		
+Random & 1218081.799 & 1220529.032 & 1223095.993 & 604691.1667\\			
+Greedy & 1025903.235 & 1031044.62 & 1035125.942 & 609866.6667
+\end{tabular}
+\caption{Comparison of results using greedy versus random initianl solution. Results were calculated on the RanReal\_n960\_ds\_10.txt benchmark dataset and averaged over 6 runs}
+\label{table:greedyvsrandom}
+\end{table}
+
 
 \section{Real World Voorbeeld}
 
@@ -234,7 +241,7 @@ program GVNS(xopt, kmin, kmax, kstep, tmax, nrest)
       endif
     endwhile
 \end{verbatim}
-\caption{GVNS pseudocode}
+\caption{GVNS pseudocode (uit \cite{Urosevic})}
 \label{apx:gvns_pseudocode}
 \end{figure}
 \end{document}
