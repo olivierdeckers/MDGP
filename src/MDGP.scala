@@ -36,15 +36,17 @@ class MDGP(file:File) {
 
 object Main extends App {
 
-  val mdgp = new MDGP(new java.io.File("test.txt"))
-  Algorithms.gvns(mdgp)
+  //val mdgp = new MDGP(new java.io.File("test.txt"))
+  //Algorithms.gvns(mdgp)
 
-  /*val files = new java.io.File("benchmark").listFiles.filter(_.getName.endsWith(".txt"))
-  val nbSamples = 20
+  val files = new java.io.File("benchmark").listFiles.filter(_.getName.endsWith(".txt"))
+  val nbSamples = 6
 
   println("Filename\tMin\tAverage\tMax\tDuration")
 
-  for(file <- files) {
+  var file = files.head
+
+  //for(file <- files) {
     val mdgp = new MDGP(file)
 
     var sum = 0d
@@ -65,5 +67,5 @@ object Main extends App {
     val averageDuration = time / nbSamples.toDouble
 
     println(s"${file.getName()}\t$min\t$average\t$max\t$averageDuration")
-  }*/
+  //}
 }
