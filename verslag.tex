@@ -154,15 +154,18 @@ Uit de experimenten in de paper blijkt dat de uitvoeringstijd van variable neigh
 De resulterende oplossingen blijken maar 1.7 keer beter te zijn.
 Om deze reden worden enkel insertion en swap gebruikt. 
 
-De tijd die gespaard wordt door 3-chain uit te schakelen kan nuttiger aangewend worden door meer iteraties van de gereduceerde variable neighbourhood descent uit te voeren.
-
-
+De tijd die gespaard wordt door 3-chain uit te schakelen kan vermoedelijk nuttiger aangewend worden door meerdere random restarts uit te voeren.
 
 \subsection{Diversification}
 \subsubsection{Shaking}
+Als diversificatie stelt de paper een shaking procedure voor.
+Deze procedure bestaat erin $k$ willekeurige swaps uit te voeren op de huidige oplossing. 
+De parameter $k$ is een parameter van de procedure, die door GVNS bepaald wordt (zie later).
 
 \subsubsection{Random restarts}
-Verder implementeert de paper van Urosevic\cite{Urosevic} ook functionaliteit voor random restarts, waarbij het zoeken van een oplossing verder gezet wordt vanaf een initial solution.
+Verder implementeert de paper van Urosevic\cite{Urosevic} ook random restarts. Indien een betere oplossing niet gevonden wordt met VNS, wordt er een nieuwe initi\"ele oplossing gegenereerd met de greedy heuristiek die opnieuw geoptimaliseerd wordt.
+
+In dit opzicht is het wel belangrijk dat de greedy heuristiek een willekeurige component bevat en niet deterministisch steeds dezelfde oplossing teruggeeft.
 
 \section{Implementatie}
 De paper laat na de exacte implementatie van variable neighbourhood descent die gebruikt werd te vermelden. ...
@@ -189,4 +192,36 @@ for the maximally diverse grouping problem}.
  Yugoslav Journal of Operations Research, 2014, Vol 24.
 
 \end{thebibliography}
+
+\section{Appendices}
+\begin{figure}[H]
+\begin{verbatim}
+program GVNS(xopt, kmin, kmax, kstep, tmax, nrest)
+    x := InitialSolution;
+    x := VND(x);
+    xopt := x;
+    k := kmin;
+    niter := 0;
+    while RunningTime < tmax do
+      x' := Shake(x, k);
+      x'' := VND(x')
+      if f(x'') > f(x) then
+        x := x''; k := kmin;
+      else
+        k := k + kstep;
+        if k > kmax then
+          niter := niter+1;
+          if niter = nrest then
+            if f(x) > f(xopt) then xopt := x;
+            x := InitialSolution;
+            niter := 0;
+          endif
+          k := kmin;
+        endif
+      endif
+    endwhile
+\end{verbatim}
+\caption{GVNS pseudocode}
+\label{apx:gvns_pseudocode}
+\end{figure}
 \end{document}
