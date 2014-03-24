@@ -20,6 +20,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{pgffor}
+\usepackage{todonotes}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
@@ -181,7 +182,19 @@ Deze verschillende opties kunnen een grote invloed hebben op de kwaliteit van de
 De methodologie gebruikt bij het testen, hoeveel tijd en samples elke test kreeg en de parameters van variable neighbourhood search die hierbij gebruikt werden zijn wel erg duidelijk vermeld.
 
 \section{Implementatie}
-Zoals eerder vermeld laat de paper na de exacte implementatie van variable neighbourhood descent die gebruikt werd te beschrijven. \todo{Aanvullen}
+Zoals eerder vermeld laat de paper na de exacte implementatie van hun variable neighbourhood descent te beschrijven. Voornamelijk bij het samenstellen van alle verschillende neighbourhood structuren tot variable neighbourhood descent is hierdoor veel keuzevrijheid overgelaten aan de implementator.
+
+Hierbij werd gekozen om zo nauw mogelijk bij de variable neighbourhood descent te blijven zoals omschreven in de les. Dit betekent dat de kleinste neighbourhood, insertion, 10 kansen gegeven werd om een verbetering op te leveren.
+De eerste verbetering gevonden binnen deze 10 kansen werd doorgevoerd en insertion kreeg opnieuw 10 kansen.
+
+Indien er geen verbetering gevonden werd in 10 tries, dan wordt verder gegaan met 10 tries voor de swap neighbourhood structure. Opnieuw wordt greedy de eerste verbetering toegepast, waarna opnieuw iteration gebruikt wordt.
+
+Als ook swap geen verbetering vindt, dan stopt variable neighbourhood descent en geeft het best gevonden resultaat terug.
+\\[1em]
+Ook bij het implementeren van de greedy initial solution moesten bepaalde designkeuzes gemaakt worden. Zoals eerder vermeld moet deze methode nog altijd randomness introduceren, zoniet zou elke random restart vanaf dezelfde initial solution vertrekken.
+
+Bij het genereren van een initial solution is het mogelijk om randomness te introduceren door niet altijd de beste group te nemen, of door de volgorde waarin de elementen toegevoegd worden aan de beste groep willekeurig te maken. Beide opties introduceren variatie in de initial solution die gebruikt wordt bij random restarts. De paper kiest hier voor de 2de optie.
+
 
 \section{Real World Voorbeeld}
 
