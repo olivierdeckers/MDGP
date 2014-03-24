@@ -16,14 +16,10 @@ object Algorithms {
     var optFitness = fitness
     var k = kmin
     var niter = 0
-    var itt = 0
 
     while(System.currentTimeMillis() - start <= tmax * 1000) {
-      itt+=1
       var (newSolTemp, newFitnessTemp) = shake(sol, k, mdgp, fitness)
       var (newSol, newFitness) = vnd(newSolTemp, mdgp, newFitnessTemp)
-
-      //MDGPSolution.fitness(newSol, mdgp)
 
       if(newFitness > fitness) {
         sol = newSol
@@ -47,7 +43,6 @@ object Algorithms {
         }
       }
     }
-    println(itt)
     optSolution
   }
 
@@ -55,10 +50,9 @@ object Algorithms {
     var result = sol
     var f = fitness
     for(_ <- 0 to k) {
-      var (result1, delta) = NeighbourhoodStructure.swap(result, mdgp) //sol? elke keer hetzelfde? Moet dit niet result zijn? ;P
+      var (result1, delta) = NeighbourhoodStructure.swap(result, mdgp)
       result = result1
       f+=delta
-      //MDGPSolution.fitness(result, mdgp)
     }
     (result, f)
   }
@@ -90,8 +84,6 @@ object Algorithms {
 
       i += 1
     }
-
-    //MDGPSolution.fitness(result, mdgp)
 
     (result, f)
   }
